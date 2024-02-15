@@ -4,3 +4,10 @@ steps:
     plugins:
       - docker-compose#v3.9.0:
           run: app
+          
+  - command: echo "Param One equals \$PARAMETER_ONE"
+    plugins:
+      - aws-ssm#v1.0.0:
+          parameters:
+            PARAMETER_ONE: /my/parameter
+            PARAMETER_TWO: /my/other/parameter
