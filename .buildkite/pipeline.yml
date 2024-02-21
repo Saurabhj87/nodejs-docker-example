@@ -4,7 +4,7 @@ steps:
   - label: ":lock: Snyk Scan Locally"
     command: "snyk test --severity-threshold=high"
     agents:
-      queue: "build"
+      queue: "default"
     plugins:
       - docker#v3.7.0:
           image: "snyk/snyk:latest"
@@ -15,7 +15,7 @@ steps:
   - label: ":hammer: Build and Secrets Plugin"
     command: "npm install && npm test"  # Adjust based on your Node.js project setup
     agents:
-      queue: "build"
+      queue: "default"
     plugins:
       - ssm-secrets#v1.0.0:
           parameters:
@@ -32,7 +32,7 @@ steps:
   - label: ":lock: Snyk Test in Build"
     command: "snyk test --severity-threshold=high --fail-on=all"
     agents:
-      queue: "build"
+      queue: "default"
     plugins:
       - docker#v3.7.0:
           image: "snyk/snyk:latest"
