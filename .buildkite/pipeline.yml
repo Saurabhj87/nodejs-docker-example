@@ -1,13 +1,41 @@
+# .buildkite/pipeline.yml
+
 steps:
-  - name: ":node:"
-    command: npm test
+  - label: ":lock: Snyk Scan Locally"
+    command: "snyk test --severity-threshold=high"
+    agents:
+      queue: "build"
     plugins:
-      - docker-compose#v3.9.0:
-          run: app
-          
-  - command: echo "Param One equals \$PARAMETER_ONE"
+      - docker#v3.7.0:
+          image: "snyk/snyk:latest"
+          always-pull: true
+
+  - wait
+
+  - label: ":hammer: Build and Secrets Plugin"
+    command: "npm install && npm test"  # Adjust based on your Node.js project setup
+    agents:
+      queue: "build"
     plugins:
-      - aws-ssm#v1.0.0:
+      - ssm-secrets#v1.0.0:
           parameters:
-            PARAMETER_ONE: /my/parameter
-            PARAMETER_TWO: /my/other/parameter
+            - "arn:aws:ssm:ap-southeast-2:785636625074:parameter/test-param"
+            - "arn:aws:ssm:ap-southeast-2:785636625074:parameter/test-parameter"
+
+      - docker#v3.7.0:
+          image: "snyk/snyk:latest"
+          always-pull: true
+    env:
+      - SNYK_TOKEN=${SECRETS_TEST_PARAM}  # Assuming SECRETS_TEST_PARAM is the first SSM secret
+      - ANOTHER_SECRET=${SECRETS_TEST_PARAMETER}  # Assuming SECRETS_TEST_PARAMETER is the second SSM secret
+
+  - label: ":lock: Snyk Test in Build"
+    command: "snyk test --severity-threshold=high --fail-on=all"
+    agents:
+      queue: "build"
+    plugins:
+      - docker#v3.7.0:
+          image: "snyk/snyk:latest"
+          always-pull: true
+    env:
+      - SNYK_TOKEN=${SECRETS_TEST_PARAM}  # Assuming SECRETS_TEST_PARAM is the first SSM secret
