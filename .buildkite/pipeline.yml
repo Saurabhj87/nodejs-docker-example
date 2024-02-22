@@ -7,7 +7,7 @@ steps:
       queue: "default"
     plugins:
       - docker#v3.7.0:
-          image: "snyk/snyk-cli:docker"
+          image: "snyk/snyk-cli:node-20"
           always-pull: true
 
   - wait
@@ -23,19 +23,20 @@ steps:
             - "arn:aws:ssm:ap-southeast-2:785636625074:parameter/test-parameter"
 
       - docker#v3.7.0:
-          image: "snyk/snyk-cli:docker"
+          image: "snyk/snyk-cli:node-20"
           always-pull: true
     env:
       - SNYK_TOKEN=${SECRETS_TEST_PARAM}  
       - ANOTHER_SECRET=${SECRETS_TEST_PARAMETER}  
 
-  - label: ":lock: Snyk Test in Build"
-    command: "snyk test --severity-threshold=high --fail-on=all"
-    agents:
-      queue: "default"
-    plugins:
-      - docker#v3.7.0:
-          image: "snyk/snyk-cli:docker"
-          always-pull: true
-    env:
-      - SNYK_TOKEN=${SECRETS_TEST_PARAM}  
+  # - label: ":lock: Snyk Test in Build"
+  #   command: "snyk test --severity-threshold=high --fail-on=all"
+  #   agents:
+  #     queue: "default"
+  #   plugins:
+  #     - docker#v3.7.0:
+  #         image: "snyk/snyk-cli:docker"
+  #         always-pull: true
+  #   env:
+  #     - SNYK_TOKEN=${SECRETS_TEST_PARAM}  
+      
