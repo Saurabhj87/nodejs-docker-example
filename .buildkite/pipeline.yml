@@ -17,10 +17,10 @@ steps:
     agents:
       queue: "default"
     plugins:
-      - ssm-secrets#v1.0.0:
+      - aws-ssm#v1.0.0:
           parameters:
-            - "arn:aws:ssm:ap-southeast-2:785636625074:parameter/test-param"
-            - "arn:aws:ssm:ap-southeast-2:785636625074:parameter/test-parameter"
+            PARAMETER_ONE: "/test-param"
+            PARAMETER_TWO: "/test-parameter"
           ssh: true
           
       - docker#v3.7.0:
