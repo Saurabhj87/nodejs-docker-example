@@ -13,7 +13,7 @@ steps:
   - wait
 
   - label: ":hammer: Build and Secrets Plugin"
-    command: "npm install && npm test"  # Adjust based on your Node.js project setup
+    command: "npm install && npm test"  
     agents:
       queue: "default"
     plugins:
@@ -26,8 +26,8 @@ steps:
           image: "snyk/snyk-cli:docker"
           always-pull: true
     env:
-      - SNYK_TOKEN=${SECRETS_TEST_PARAM}  # Assuming SECRETS_TEST_PARAM is the first SSM secret
-      - ANOTHER_SECRET=${SECRETS_TEST_PARAMETER}  # Assuming SECRETS_TEST_PARAMETER is the second SSM secret
+      - SNYK_TOKEN=${SECRETS_TEST_PARAM}  
+      - ANOTHER_SECRET=${SECRETS_TEST_PARAMETER}  
 
   - label: ":lock: Snyk Test in Build"
     command: "snyk test --severity-threshold=high --fail-on=all"
@@ -38,4 +38,4 @@ steps:
           image: "snyk/snyk-cli:docker"
           always-pull: true
     env:
-      - SNYK_TOKEN=${SECRETS_TEST_PARAM}  # Assuming SECRETS_TEST_PARAM is the first SSM secret
+      - SNYK_TOKEN=${SECRETS_TEST_PARAM}  
