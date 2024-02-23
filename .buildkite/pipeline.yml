@@ -22,14 +22,14 @@ steps:
           image: "snyk/snyk:node"
           always-pull: true
     env:
-      - SNYK_TOKEN= ae4e4eed-8f40-4707-bcec-828661fdf31f  
+      - SNYK_TOKEN= 50d17fa8-6af9-4d0b-b177-6a103ce2b174
 
 
   - name: "Snyk testing"
     plugins:
       - seek-oss/aws-sm#v0.0.5:
           env:
-            SNYK_TOKEN: ae4e4eed-8f40-4707-bcec-828661fdf31f  
+            SNYK_TOKEN: 50d17fa8-6af9-4d0b-b177-6a103ce2b174
       - seek-oss/snyk#v1.0.0:
           block: true
           language: node
@@ -55,7 +55,7 @@ steps:
           image: "node:20-alpine"
           always-pull: true
     env:
-      - SNYK_TOKEN=ae4e4eed-8f40-4707-bcec-828661fdf31f   
+      - SNYK_TOKEN=50d17fa8-6af9-4d0b-b177-6a103ce2b174   
       # - ANOTHER_SECRET=${SECRETS_TEST_PARAMETER}  
 
 
