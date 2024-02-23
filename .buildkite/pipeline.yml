@@ -35,7 +35,7 @@ steps:
           ssh: true
           
       - docker#v3.7.0:
-          image: "snyk/snyk:node"
+          image: "node:20-alpine"
           always-pull: true
     env:
       - SNYK_TOKEN=ae4e4eed-8f40-4707-bcec-828661fdf31f   
