@@ -24,7 +24,7 @@ steps:
     env:
       - SNYK_TOKEN= ae4e4eed-8f40-4707-bcec-828661fdf31f  
 
-steps:
+
   - name: "Snyk testing"
     plugins:
       - seek-oss/aws-sm#v0.0.5:
