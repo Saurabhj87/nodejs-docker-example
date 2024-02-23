@@ -1,16 +1,7 @@
 # .buildkite/pipeline.yml
 
 steps:
-  - label: ":lock: Snyk Test in Build"
-    command: "snyk test --severity-threshold=high --fail-on=all"
-    agents:
-      queue: "default"
-    plugins:
-      - docker#v3.7.0:
-          image: "snyk/snyk:node"
-          always-pull: true
-    env:
-      - SNYK_TOKEN=ae4e4eed-8f40-4707-bcec-828661fdf31f  
+
   
   - label: ":lock: Snyk Scan Locally"
     command: "snyk test --severity-threshold=high"
@@ -22,7 +13,17 @@ steps:
           always-pull: true
 
   - wait
-
+  - label: ":lock: Snyk Test in Build"
+    command: "snyk test --severity-threshold=high --fail-on=all"
+    agents:
+      queue: "default"
+    plugins:
+      - docker#v3.7.0:
+          image: "snyk/snyk:node"
+          always-pull: true
+    env:
+      - SNYK_TOKEN=ae4e4eed-8f40-4707-bcec-828661fdf31f  
+      
   - label: ":hammer: Build and Secrets Plugin"
     command: "npm install && npm test"  
     agents:
