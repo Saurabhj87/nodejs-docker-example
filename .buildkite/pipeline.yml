@@ -22,7 +22,23 @@ steps:
           image: "snyk/snyk:node"
           always-pull: true
     env:
-      - SNYK_TOKEN=ae4e4eed-8f40-4707-bcec-828661fdf31f  
+      - SNYK_TOKEN= ae4e4eed-8f40-4707-bcec-828661fdf31f  
+
+steps:
+  - name: "Snyk testing"
+    plugins:
+      - seek-oss/aws-sm#v0.0.5:
+          env:
+            SNYK_TOKEN: ae4e4eed-8f40-4707-bcec-828661fdf31f  
+      - seek-oss/snyk#v1.0.0:
+          block: true
+          language: node
+          path: package.json
+          severity: low
+          npmToken: NPM_TOKEN
+          org: test-team
+    agents: 
+      queue: "default"
       
   - label: ":hammer: Build and Secrets Plugin"
     command: "npm install && npm test"  
