@@ -7,7 +7,7 @@ steps:
       queue: "default"
     plugins:
       - docker#v3.7.0:
-          image: "snyk/snyk-cli:docker"
+          image: "snyk/snyk:node-20"
           always-pull: true
     env:
       - SNYK_TOKEN=${SECRETS_TEST_PARAM}    
